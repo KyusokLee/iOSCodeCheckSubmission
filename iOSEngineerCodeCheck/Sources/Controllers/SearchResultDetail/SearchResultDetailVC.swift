@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController2: UIViewController {
+class SearchResultDetailVC: UIViewController {
     
     @IBOutlet weak var ImgView: UIImageView!
     
@@ -21,7 +21,7 @@ class ViewController2: UIViewController {
     @IBOutlet weak var FrksLbl: UILabel!
     @IBOutlet weak var IsssLbl: UILabel!
     
-    var vc1: ViewController!
+    var vc1: HomeVC!
         
     override func viewDidLoad() {
         super.viewDidLoad()
