@@ -11,6 +11,9 @@ import UIKit
 class HomeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var repositoryTitleLabel: UILabel!
+    @IBOutlet weak var repositoryLanguageStackView: UIStackView!
+    @IBOutlet weak var repositoryLanguageColorView: UIView!
+    @IBOutlet weak var repositoryLanguageLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,5 +26,9 @@ class HomeTableViewCell: UITableViewCell {
     
     func configure(repository: Repository) {
         repositoryTitleLabel.text = repository.title
+        repositoryLanguageStackView.isHidden = repository.language == nil ? true : false
+        repositoryLanguageColorView.backgroundColor = .blue
+        repositoryLanguageColorView.layer.cornerRadius = repositoryLanguageColorView.frame.width / 2
+        repositoryLanguageLabel.text = repository.language
     }
 }

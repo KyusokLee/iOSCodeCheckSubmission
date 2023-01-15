@@ -38,10 +38,12 @@ struct Repository: Codable {
 
 // imageがString型のurlとして格納されている
 struct User: Codable {
+    var userName: String?
     var id: Int?
     var avatarURL: String?
     
     enum codingKeys: String, CodingKey {
+        case userName = "login"
         case id
         case avatarURL = "avatar_url"
     }

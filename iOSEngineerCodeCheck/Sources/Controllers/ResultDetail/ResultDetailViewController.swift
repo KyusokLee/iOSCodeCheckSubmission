@@ -23,73 +23,68 @@ class ResultDetailViewController: UIViewController {
     
     var repositoryData: Repository?
     
-    static func instantiate(with urlString: String?) -> ResultDetailViewController {
-        guard let controller = UIStoryboard(name: "ResultDetail", bundle: nil).instantiateInitialViewController() as? ResultDetailViewController else {
+    static func instantiate(with repository: Repository) -> ResultDetailViewController {
+        guard let controller = UIStoryboard(name: "ResultDetail", bundle: nil).instantiateViewController(withIdentifier: "ResultDetailViewController") as? ResultDetailViewController else {
             fatalError("ResultDetailViewController could not be found.")
         }
         
         controller.loadViewIfNeeded()
-        controller.configure(with: urlString)
+        controller.configure(with: repository)
         return controller
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
-    }
-    
-    func configure(with urlString: String?) {
-        if let hasURL = urlString {
-            loadImage(urlString: hasURL) { image in
-                DispatchQueue.main.async {
-                    self.repositoryImageView.image = image
-                }
-            }
-        }
         
-        setUpNavigationBar()
+    }
+}
+
+// MARK: - Presenterのインタフェースを実装し、画面に結果を表示
+extension ResultDetailViewController {
+    func configure(with repository: Repository) {
+        presenter = ResultDetailViewPresenter(
+            apiClient: GitHubAPIClient(),
+            view: self
+        )
+        
+        setUpNavigationBar(from: repository)
     }
     
-    func setUpNavigationBar() {
-        navigationController?.title = "Result Detail"
+    func setUpNavigationBar(from repository: Repository) {
+        navigationController?.title = repository.user.userName ?? "User Name"
+        setUpUI(from: repository)
     }
     
-    func setUpUI() {
-        repositoryTitleLabel.text = repositoryData?.title ?? ""
-        repositoryLanguageLabel.text = "Written in \(repositoryData?.language ?? "")"
-        repositoryStarsCountLabel.text = "\(repositoryData?.stargazersCount ?? 0) stars"
-        repositoryWatchersCountLabel.text = "\(repositoryData?.wachersCount ?? 0) watchers"
-        repositoryForksCountLabel.text = "\(repositoryData?.forksCount ?? 0) forks"
-        repositoryIssuesCountLabel.text = "\(repositoryData?.openIssuesCount ?? 0) open issues"
+    // ⚠️network　errorによるunfetchはまだ定義してない
+    func setUpUI(from repository: Repository) {
+        let unfetchedMessage = "読み取れませんでした"
+        
+        repositoryTitleLabel.text = repository.title ?? unfetchedMessage
+        repositoryLanguageLabel.text = "Written in " + (repository.language ?? unfetchedMessage)
+        repositoryStarsCountLabel.text = "\(String(describing: repository.stargazersCount)) stars"
+        repositoryWatchersCountLabel.text = "\(repository.wachersCount ?? 0) watchers"
+        repositoryForksCountLabel.text = "\(repository.forksCount ?? 0) forks"
+        repositoryIssuesCountLabel.text = "\(repository.openIssuesCount ?? 0) open issues"
+    }
+}
+
+// MARK: - ResultDetailViewのImage
+extension ResultDetailViewController: ResultDetailView {
+    func shouldShowUserImageResult(with imageData: Data) {
+        print("success to show")
+        let image = UIImage(data: imageData) ?? UIImage(data: Data())
+        repositoryImageView.image = image
     }
     
-    func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void ) {
-          networkLayer.request(type: .justURL(urlString: urlString)) { data, response, error in
-              
-              if let hasData = data {
-                  completion(UIImage(data: hasData))
-                  return
-              }
-              completion(nil)
-          }
-      }
+    func shouldShowNetworkErrorFeedback() {
+        // Network Errorを知らせるviewを表示
+        print("Network Error")
+    }
     
-//    func loadImage() {
-//
-//        let repo = vc1.repo[vc1.idx]
-//
-//        TtlLbl.text = repo["full_name"] as? String
-//
-//        if let owner = repo["owner"] as? [String: Any] {
-//            if let imgURL = owner["avatar_url"] as? String {
-//                URLSession.shared.dataTask(with: URL(string: imgURL)!) { (data, res, err) in
-//                    let img = UIImage(data: data!)!
-//                    DispatchQueue.main.async {
-//                        self.ImgView.image = img
-//                    }
-//                }.resume()
-//            }
-//        }
-//    }
+    func shouldShowResultFailFeedback() {
+        // Imageを正しくfetchするのに失敗
+        print("Imageを正しく取得できませんでした")
+    }
+    
     
 }

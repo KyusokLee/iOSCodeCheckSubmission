@@ -9,18 +9,18 @@
 import Foundation
 
 // JSONParsingのみを行う
+// repositoryのデータをparsingして取得するように
+// imageの場合は、parserを必要
 protocol RepositoryJSONParserProtocol {
     func parse(data: Data) -> RepositoryModel?
 }
 
 struct RepositoryJSONParser: RepositoryJSONParserProtocol {
     func parse(data: Data) -> RepositoryModel? {
-        let decoder = JSONDecoder()
-        
-        guard let resultResponse = try? decoder.decode(RepositoryModel.self, from: data) else {
+        guard let repositoryResult = try? JSONDecoder().decode(RepositoryModel.self, from: data) else {
             return nil
         }
         
-        return resultResponse
+        return repositoryResult
     }
 }

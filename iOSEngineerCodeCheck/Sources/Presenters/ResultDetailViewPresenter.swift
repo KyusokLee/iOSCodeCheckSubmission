@@ -8,41 +8,41 @@
 
 import Foundation
 
-protocol ResultView: AnyObject {
-    func shouldShowResult(with repository: RepositoryModel)
+// ResultDetailViewに関するPresenter
+// ResultDetailViewでは、もう一度DataをJson Parsingする必要はない
+
+protocol ResultDetailView: AnyObject {
+    func shouldShowUserImageResult(with imageData: Data)
     func shouldShowNetworkErrorFeedback()
-    func shouldShowRecognitionFailFeedback()
+    func shouldShowResultFailFeedback()
 }
 
 final class ResultDetailViewPresenter {
-    private let jsonParser: RepositoryJSONParserProtocol
     private let apiClient: GitHubAPIClientProtocol
-    private weak var view: ResultView?
+    private weak var view: ResultDetailView?
     
-    init(jsonParser: RepositoryJSONParserProtocol,
-         apiClient: GitHubAPIClientProtocol,
-         view: ResultView
+    init(apiClient: GitHubAPIClientProtocol,
+         view: ResultDetailView
     ) {
-        self.jsonParser = jsonParser
         self.apiClient = apiClient
         // イニシャライザでViewを受け取る
         self.view = view
     }
-    
-    // parseModelはいらないかも -> imageとかじゃなくapi requestしてそのままparseすればいいから
-    func loadRepository(from searchText: String) {
-        apiClient.send(textString: searchText) { (data, error) in
+        
+    // avatarURLからimageをloadするように
+    // imageはparsing処理がいらない
+    func loadImage(from urlString: String) {
+        apiClient.send(type: .avatarURL(urlString: urlString)) { (data, error) in
             // jsonParserを利用してGitHub Repository結果をパースし、Viewに伝える
-            guard error == nil,
-                  let data = data else {
+            guard error == nil else {
                 self.view?.shouldShowNetworkErrorFeedback()
                 return
             }
             
-            if let repoResult = self.jsonParser.parse(data: data) {
-                self.view?.shouldShowResult(with: repoResult)
+            if let hasData = data {
+                self.view?.shouldShowUserImageResult(with: hasData)
             } else {
-                self.view?.shouldShowRecognitionFailFeedback()
+                self.view?.shouldShowResultFailFeedback()
             }
         }
     }
