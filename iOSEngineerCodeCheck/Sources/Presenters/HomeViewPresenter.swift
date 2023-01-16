@@ -11,7 +11,7 @@ import Foundation
 // ResultDetailViewに関するPresenter
 protocol HomeView: AnyObject {
     func shouldShowResult(with repository: RepositoryModel)
-    func shouldShowNetworkErrorFeedback()
+    func shouldShowNetworkErrorFeedback(with error: Error)
     func shouldShowResultFailFeedback()
 }
 
@@ -35,7 +35,7 @@ final class HomeViewPresenter {
         apiClient.send(type: .repositorySearch(textString: textString)) { (data, error) in
             // jsonParserを利用してGitHub Repository結果をパースし、Viewに伝える
             guard error == nil, let hasData = data else {
-                self.view?.shouldShowNetworkErrorFeedback()
+                self.view?.shouldShowNetworkErrorFeedback(with: error!)
                 return
             }
             
@@ -45,10 +45,5 @@ final class HomeViewPresenter {
                 self.view?.shouldShowResultFailFeedback()
             }
         }
-    }
-    
-    // requestのcancelも必要
-    func cancelLoad() {
-        apiClient.cancelTask()
     }
 }

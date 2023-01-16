@@ -11,13 +11,16 @@ import UIKit
 class HomeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var repositoryTitleLabel: UILabel!
-    @IBOutlet weak var repositoryLanguageStackView: UIStackView!
     @IBOutlet weak var repositoryLanguageColorView: UIView!
-    @IBOutlet weak var repositoryLanguageLabel: UILabel!
+    @IBOutlet weak var repositoryLanguageStackView: UIStackView!
+    @IBOutlet weak var repositoryLanguageLabel: UILabel! {
+        didSet {
+            repositoryLanguageLabel.font = .systemFont(ofSize: 13)
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -25,8 +28,13 @@ class HomeTableViewCell: UITableViewCell {
     }
     
     func configure(repository: Repository) {
+        if repository.language == nil {
+            repositoryLanguageStackView.isHidden = true
+        } else {
+            repositoryLanguageStackView.isHidden = false
+        }
+        
         repositoryTitleLabel.text = repository.title
-        repositoryLanguageStackView.isHidden = repository.language == nil ? true : false
         repositoryLanguageColorView.backgroundColor = .blue
         repositoryLanguageColorView.layer.cornerRadius = repositoryLanguageColorView.frame.width / 2
         repositoryLanguageLabel.text = repository.language

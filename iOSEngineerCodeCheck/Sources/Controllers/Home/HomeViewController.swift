@@ -18,7 +18,14 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var searchResultTableView: UITableView!
     private(set) var presenter: HomeViewPresenter!
     var repositories: RepositoryModel?
-        
+    
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isLoading = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,32 +33,68 @@ class HomeViewController: UIViewController {
         setNavigationBar()
         setTableView()
         configure()
+        
+        self.view.addSubview(loadingView)
+        setLoadingViewConstraints()
     }
     
     func setTableView() {
         searchResultTableView.delegate = self
         searchResultTableView.dataSource = self
+        searchResultTableView.keyboardDismissMode = .onDrag
         registerNib()
     }
     
     func setSearchBar() {
         searchBar.placeholder = "GitHubのリポジトリを検索"
+        searchBar.enablesReturnKeyAutomatically = true
         searchBar.delegate = self
     }
     
-    // ⚠️ まだ、途中の段階
     func setNavigationBar() {
-        navigationController?.title = "Home"
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(rgb: 0x64B5F6).withAlphaComponent(0.7)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        self.navigationItem.backButtonTitle = "Back"
+        self.navigationController?.navigationBar.tintColor = UIColor(rgb: 0x115293)
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationItem.title = "Home"
     }
 
     func registerNib() {
         self.searchResultTableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: "HomeTableViewCell")
     }
+    
+    func setLoadingViewConstraints() {
+        NSLayoutConstraint.activate([
+            self.loadingView.leftAnchor.constraint(equalTo: self.searchResultTableView.leftAnchor),
+            self.loadingView.rightAnchor.constraint(equalTo: self.searchResultTableView.rightAnchor),
+            self.loadingView.bottomAnchor.constraint(equalTo: self.searchResultTableView.bottomAnchor),
+            self.loadingView.topAnchor.constraint(equalTo: self.searchResultTableView.topAnchor)
+        ])
+    }
+    
+    func showLoadingStatusAlert() -> UIAlertController {
+        let loadingStatusAlertController = UIAlertController(title: "", message: "ネットワークに繋がっていません", preferredStyle: .alert)
+        let check = UIAlertAction(title: "確認", style: .destructive) { _ in
+            print("error")
+        }
+              
+        let cancel = UIAlertAction(title: "キャンセル", style: .default)
+        loadingStatusAlertController.addAction(cancel)
+        loadingStatusAlertController.addAction(check)
+        
+        return loadingStatusAlertController
+    }
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(repositories?.items.count ?? 0)
         return repositories?.items.count ?? 0
     }
     
@@ -73,7 +116,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         if let hasRepository = repositories?.items[indexPath.row] {
             let resultDetailViewController = ResultDetailViewController.instantiate(with: hasRepository)
             
-            if let hasURL = hasRepository.user.avatarURL {
+            if let hasURL = hasRepository.owner.avatarURL {
                 resultDetailViewController.presenter.loadImage(from: hasURL)
             }
             
@@ -85,8 +128,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        
-
+        searchBar.setShowsCancelButton(true, animated: true)
         return true
     }
     
@@ -95,48 +137,27 @@ extension HomeViewController: UISearchBarDelegate {
         
         if let hasText = text {
             print(hasText)
-            presenter.cancelLoad()
-            presenter.loadRepository(from: hasText)
-            
-            DispatchQueue.main.async {
-                self.searchResultTableView.reloadData()
-            }
+           // presenter.cancelLoad()
+           // presenter.loadRepository(from: hasText)
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-        print("click")
         let text = searchBar.text
         
         if let hasText = text {
-            print(hasText)
-//            presenter.cancelLoad()
+            self.loadingView.isLoading = true
             presenter.loadRepository(from: hasText)
-            
-            DispatchQueue.main.async {
-                self.searchResultTableView.reloadData()
-            }
         }
         
-        // ✍️
-//
-//        if word.count != 0 {
-//            url = "https://api.github.com/search/repositories?q=\(word!)"
-//            task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
-//                if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
-//                    if let items = obj["items"] as? [[String: Any]] {
-//                    self.repo = items
-//                        DispatchQueue.main.async {
-//                            self.tableView.reloadData()
-//                        }
-//                    }
-//                }
-//            }
-//        // これ呼ばなきゃリストが更新されません
-//        task?.resume()
-//        }
-        
+        searchBar.setShowsCancelButton(false, animated: true)
+        self.view.endEditing(true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        // ✍️キーボード下ろす
+        self.view.endEditing(true)
     }
 }
 
@@ -149,7 +170,6 @@ extension HomeViewController {
             apiClient: GitHubAPIClient(),
             view: self
         )
-        
     }
 }
 
@@ -160,11 +180,19 @@ extension HomeViewController: HomeView {
         // データを正常に持ってくることを確認
         self.repositories = repository
         print(repository)
-        print(repositories?.items.count ?? 0)
+        print(repository.items.count)
+        
+        DispatchQueue.main.async {
+            self.loadingView.isLoading = false
+            self.searchResultTableView.reloadData()
+        }
     }
     
-    func shouldShowNetworkErrorFeedback() {
-        print("network error")
+    func shouldShowNetworkErrorFeedback(with error: Error) {
+        print("Network Error: \(error.localizedDescription)")
+        DispatchQueue.main.async {
+            self.present(self.showLoadingStatusAlert(), animated: true)
+        }
     }
     
     func shouldShowResultFailFeedback() {

@@ -47,24 +47,34 @@ extension ResultDetailViewController {
             view: self
         )
         
-        setUpNavigationBar(from: repository)
+        setNavigationBar(from: repository)
     }
     
-    func setUpNavigationBar(from repository: Repository) {
-        navigationController?.title = repository.user.userName ?? "User Name"
+    func setNavigationBar(from repository: Repository) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(rgb: 0x64B5F6).withAlphaComponent(0.7)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        self.navigationItem.backButtonTitle = "Back"
+        self.navigationController?.navigationBar.tintColor = UIColor(rgb: 0x115293)
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationItem.title = repository.owner.userName ?? "User Name"
+
+//        navigationController?.title = repository.owner.userName ?? "User Name"
         setUpUI(from: repository)
     }
     
-    // ⚠️network　errorによるunfetchはまだ定義してない
     func setUpUI(from repository: Repository) {
-        let unfetchedMessage = "読み取れませんでした"
-        
-        repositoryTitleLabel.text = repository.title ?? unfetchedMessage
-        repositoryLanguageLabel.text = "Written in " + (repository.language ?? unfetchedMessage)
+        repositoryTitleLabel.text = repository.title
+        repositoryLanguageLabel.text = "Written in \(repository.language ?? "")"
         repositoryStarsCountLabel.text = "\(String(describing: repository.stargazersCount)) stars"
-        repositoryWatchersCountLabel.text = "\(repository.wachersCount ?? 0) watchers"
-        repositoryForksCountLabel.text = "\(repository.forksCount ?? 0) forks"
-        repositoryIssuesCountLabel.text = "\(repository.openIssuesCount ?? 0) open issues"
+        repositoryWatchersCountLabel.text = "\(String(describing: repository.wachersCount)) watchers"
+        repositoryForksCountLabel.text = "\(String(describing: repository.forksCount)) forks"
+        repositoryIssuesCountLabel.text = "\(String(describing: repository.openIssuesCount)) open issues"
     }
 }
 
@@ -76,9 +86,9 @@ extension ResultDetailViewController: ResultDetailView {
         repositoryImageView.image = image
     }
     
-    func shouldShowNetworkErrorFeedback() {
+    func shouldShowNetworkErrorFeedback(with error: Error) {
         // Network Errorを知らせるviewを表示
-        print("Network Error")
+        print("Netword Error: \(error.localizedDescription)")
     }
     
     func shouldShowResultFailFeedback() {

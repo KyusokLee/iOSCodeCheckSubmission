@@ -16,7 +16,6 @@ enum GitHubAPIType {
 
 protocol GitHubAPIClientProtocol {
     func send(type: GitHubAPIType, completion: @escaping ((Data?, Error?) -> Void))
-    func cancelTask()
 }
 
 // requestをAPI側に送信する
@@ -33,13 +32,15 @@ struct GitHubAPIClient: GitHubAPIClientProtocol {
         }.resume()
     }
     
-    func cancelTask() {
-        var task: URLSessionTask?
-        
-        if let hasTask = task {
-            hasTask.cancel()
-        }
-    }
+//    func cancelTask() {
+//        var task: URLSessionTask?
+//
+//        if let hasTask = task {
+//            if let _ = hasTask.currentRequest {
+//                hasTask.cancel()
+//            }
+//        }
+//    }
 }
 
 // GitHub APIのrequestを立てる
