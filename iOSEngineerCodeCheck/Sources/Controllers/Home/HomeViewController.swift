@@ -9,32 +9,31 @@
 import UIKit
 
 // TODO: SearchBarでtextを打ち、検索ボタンを押さなくてもリポジトリのリストが表示されるように
-// MARK: ✍️がついているところは、私が書いたコード
-// MARK: ⚠️途中の段階ってこと
 
 class HomeViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultTableView: UITableView!
-    private(set) var presenter: HomeViewPresenter!
-    var repositories: RepositoryModel?
     
+    var repositories: RepositoryModel?
+    private(set) var presenter: HomeViewPresenter!
     private let loadingView: LoadingView = {
         let view = LoadingView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        // 初期設定として、loadingをfalseに
         view.isLoading = false
+        
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.addSubview(loadingView)
         setSearchBar()
         setNavigationBar()
         setTableView()
         configure()
-        
-        self.view.addSubview(loadingView)
         setLoadingViewConstraints()
     }
     
@@ -53,6 +52,7 @@ class HomeViewController: UIViewController {
     
     func setNavigationBar() {
         let appearance = UINavigationBarAppearance()
+        //configureWithOpagueBackgroundで前の設定をリセットし、不透明の色としてNavigationBarの外見をセット可能
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(rgb: 0x64B5F6).withAlphaComponent(0.7)
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -61,7 +61,6 @@ class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(rgb: 0x115293)
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = "Home"
     }
@@ -79,17 +78,13 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    func showLoadingStatusAlert() -> UIAlertController {
-        let loadingStatusAlertController = UIAlertController(title: "", message: "ネットワークに繋がっていません", preferredStyle: .alert)
-        let check = UIAlertAction(title: "確認", style: .destructive) { _ in
-            print("error")
+    func showErrorAlert(title: String, message: String) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let check = UIAlertAction(title: "確認", style: .default) { _ in
+            self.dismiss(animated: true)
         }
-              
-        let cancel = UIAlertAction(title: "キャンセル", style: .default)
-        loadingStatusAlertController.addAction(cancel)
-        loadingStatusAlertController.addAction(check)
-        
-        return loadingStatusAlertController
+        alertController.addAction(check)
+        return alertController
     }
 }
 
@@ -99,12 +94,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell {
             if let hasRepository = repositories?.items[indexPath.row] {
                 cell.configure(repository: hasRepository)
             }
-            
             return cell
         } else {
             return UITableViewCell()
@@ -112,14 +105,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // ✍️
         if let hasRepository = repositories?.items[indexPath.row] {
             let resultDetailViewController = ResultDetailViewController.instantiate(with: hasRepository)
-            
             if let hasURL = hasRepository.owner.avatarURL {
                 resultDetailViewController.presenter.loadImage(from: hasURL)
             }
-            
             tableView.deselectRow(at: indexPath, animated: true)
             navigationController?.pushViewController(resultDetailViewController, animated: true)
         }
@@ -134,7 +124,6 @@ extension HomeViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let text = searchBar.text
-        
         if let hasText = text {
             print(hasText)
            // presenter.cancelLoad()
@@ -144,12 +133,12 @@ extension HomeViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let text = searchBar.text
-        
         if let hasText = text {
+            // 空白があるときのErrorを防ぐ
+            let trimmedText = hasText.trimmingCharacters(in: .whitespaces)
             self.loadingView.isLoading = true
-            presenter.loadRepository(from: hasText)
+            presenter.loadRepository(from: trimmedText)
         }
-        
         searchBar.setShowsCancelButton(false, animated: true)
         self.view.endEditing(true)
     }
@@ -176,26 +165,37 @@ extension HomeViewController {
 // MARK: - Searchをすると、アップデートされるHomeView
 extension HomeViewController: HomeView {
     func shouldShowResult(with repository: RepositoryModel) {
-        print("success")
         // データを正常に持ってくることを確認
         self.repositories = repository
         print(repository)
-        print(repository.items.count)
-        
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
             self.searchResultTableView.reloadData()
         }
     }
     
-    func shouldShowNetworkErrorFeedback(with error: Error) {
-        print("Network Error: \(error.localizedDescription)")
+    func shouldShowApiErrorFeedback(with response: HTTPURLResponse, errorType: ErrorType) {
+        print("Status Code: \(response.statusCode)")
         DispatchQueue.main.async {
-            self.present(self.showLoadingStatusAlert(), animated: true)
+            self.loadingView.isLoading = false
+            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
         }
     }
     
-    func shouldShowResultFailFeedback() {
+    func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType) {
+        // Debugのため
+        print("Network Error: \(error.localizedDescription)")
+        DispatchQueue.main.async {
+            self.loadingView.isLoading = false
+            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+        }
+    }
+    
+    func shouldShowResultFailFeedback(errorType: ErrorType) {
         print("Parsing Error: fail to show result")
+        DispatchQueue.main.async {
+            self.loadingView.isLoading = false
+            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+        }
     }
 }

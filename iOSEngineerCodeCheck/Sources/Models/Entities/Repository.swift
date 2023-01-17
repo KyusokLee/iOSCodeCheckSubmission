@@ -18,6 +18,7 @@ struct RepositoryModel: Codable {
 
 struct Repository: Codable {
     var owner: User
+    var description: String?
     var title: String?
     var language: String?
     var stargazersCount: Int?
@@ -27,6 +28,7 @@ struct Repository: Codable {
     
     enum CodingKeys: String, CodingKey {
         case owner
+        case description
         case title = "full_name"
         case language
         case stargazersCount = "stargazers_count"

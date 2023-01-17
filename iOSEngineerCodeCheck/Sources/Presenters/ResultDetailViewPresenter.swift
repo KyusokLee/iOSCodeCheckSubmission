@@ -13,8 +13,8 @@ import Foundation
 
 protocol ResultDetailView: AnyObject {
     func shouldShowUserImageResult(with imageData: Data)
-    func shouldShowNetworkErrorFeedback(with error: Error)
-    func shouldShowResultFailFeedback()
+    func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType)
+    func shouldShowResultFailFeedback(errorType: ErrorType)
 }
 
 final class ResultDetailViewPresenter {
@@ -32,10 +32,10 @@ final class ResultDetailViewPresenter {
     // avatarURLからimageをloadするように
     // imageはparsing処理がいらない
     func loadImage(from urlString: String) {
-        apiClient.send(type: .avatarURL(urlString: urlString)) { (data, error) in
+        apiClient.send(type: .avatarURL(urlString: urlString)) { (data, _, error) in
             // jsonParserを利用してGitHub Repository結果をパースし、Viewに伝える
             guard error == nil else {
-                self.view?.shouldShowNetworkErrorFeedback(with: error!)
+                self.view?.shouldShowNetworkErrorFeedback(with: error!, errorType: .networkError)
                 return
             }
             
@@ -43,7 +43,7 @@ final class ResultDetailViewPresenter {
                 print("success to show image!")
                 self.view?.shouldShowUserImageResult(with: hasData)
             } else {
-                self.view?.shouldShowResultFailFeedback()
+                self.view?.shouldShowResultFailFeedback(errorType: .loadDataError)
             }
         }
     }
