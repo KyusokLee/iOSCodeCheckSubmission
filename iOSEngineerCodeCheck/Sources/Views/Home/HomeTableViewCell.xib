@@ -23,26 +23,26 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <stackView opaque="NO" contentMode="scaleToFill" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="cbF-8u-Twt">
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="cbF-8u-Twt">
                         <rect key="frame" x="10" y="82" width="300" height="13"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="glW-uG-XMY">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="glW-uG-XMY">
                                 <rect key="frame" x="0.0" y="0.0" width="13" height="13"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="13" id="fgW-IV-Jfe"/>
-                                    <constraint firstAttribute="height" constant="13" id="uqo-xd-zxI"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BUJ-lS-JHX">
-                                <rect key="frame" x="31" y="0.0" width="269" height="13"/>
+                                <rect key="frame" x="17" y="0.0" width="283" height="13"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="glW-uG-XMY" firstAttribute="centerY" secondItem="cbF-8u-Twt" secondAttribute="centerY" id="OKM-Ro-QWx"/>
+                            <constraint firstItem="glW-uG-XMY" firstAttribute="width" secondItem="BUJ-lS-JHX" secondAttribute="height" multiplier="1:1" id="36b-Z7-0K6"/>
+                            <constraint firstItem="BUJ-lS-JHX" firstAttribute="centerY" secondItem="cbF-8u-Twt" secondAttribute="centerY" id="nIf-3Z-Efg"/>
                         </constraints>
                     </stackView>
                 </subviews>
@@ -60,7 +60,7 @@
             <connections>
                 <outlet property="repositoryLanguageColorView" destination="glW-uG-XMY" id="Yuq-y0-UFK"/>
                 <outlet property="repositoryLanguageLabel" destination="BUJ-lS-JHX" id="UQb-jV-5TI"/>
-                <outlet property="repositoryLanguageStackView" destination="cbF-8u-Twt" id="FYH-Hj-Vfx"/>
+                <outlet property="repositoryLanguageStackView" destination="cbF-8u-Twt" id="fqF-ll-3EQ"/>
                 <outlet property="repositoryTitleLabel" destination="xG7-Yy-8zz" id="3KA-VW-c76"/>
             </connections>
             <point key="canvasLocation" x="88.549618320610676" y="41.197183098591552"/>

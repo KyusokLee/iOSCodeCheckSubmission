@@ -11,8 +11,9 @@ import Foundation
 // ResultDetailViewに関するPresenter
 protocol HomeView: AnyObject {
     func shouldShowResult(with repository: RepositoryModel)
-    func shouldShowNetworkErrorFeedback()
-    func shouldShowResultFailFeedback()
+    func shouldShowApiErrorFeedback(with response: HTTPURLResponse, errorType: ErrorType)
+    func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType)
+    func shouldShowResultFailFeedback(errorType: ErrorType)
 }
 
 final class HomeViewPresenter {
@@ -32,23 +33,28 @@ final class HomeViewPresenter {
     
     // parseModelはいらないかも -> imageとかじゃなくapi requestしてそのままparseすればいいから
     func loadRepository(from textString: String) {
-        apiClient.send(type: .repositorySearch(textString: textString)) { (data, error) in
+        apiClient.send(type: .repositorySearch(textString: textString)) { (data, response, error) in
             // jsonParserを利用してGitHub Repository結果をパースし、Viewに伝える
             guard error == nil, let hasData = data else {
-                self.view?.shouldShowNetworkErrorFeedback()
+                self.view?.shouldShowNetworkErrorFeedback(with: error!, errorType: .networkError)
                 return
+            }
+            
+            // ⚠️途中の段階
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.isClientError() {
+                    self.view?.shouldShowApiErrorFeedback(with: httpResponse, errorType: .apiClientError)
+                    return
+                } else if httpResponse.isServerError() {
+                    self.view?.shouldShowApiErrorFeedback(with: httpResponse, errorType: .apiServerError)
+                }
             }
             
             if let repositoryResult = self.jsonParser.parse(data: hasData) {
                 self.view?.shouldShowResult(with: repositoryResult)
             } else {
-                self.view?.shouldShowResultFailFeedback()
+                self.view?.shouldShowResultFailFeedback(errorType: .parseError)
             }
         }
-    }
-    
-    // requestのcancelも必要
-    func cancelLoad() {
-        apiClient.cancelTask()
     }
 }

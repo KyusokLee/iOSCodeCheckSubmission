@@ -19,15 +19,21 @@ class ResultDetailViewController: UIViewController {
     @IBOutlet weak var repositoryWatchersCountLabel: UILabel!
     @IBOutlet weak var repositoryForksCountLabel: UILabel!
     @IBOutlet weak var repositoryIssuesCountLabel: UILabel!
-    private(set) var presenter: ResultDetailViewPresenter!
     
     var repositoryData: Repository?
+    private(set) var presenter: ResultDetailViewPresenter!
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        // 初期設定として、loadingをtrueに
+        view.isLoading = true
+        return view
+    }()
     
     static func instantiate(with repository: Repository) -> ResultDetailViewController {
         guard let controller = UIStoryboard(name: "ResultDetail", bundle: nil).instantiateViewController(withIdentifier: "ResultDetailViewController") as? ResultDetailViewController else {
             fatalError("ResultDetailViewController could not be found.")
         }
-        
         controller.loadViewIfNeeded()
         controller.configure(with: repository)
         return controller
@@ -36,6 +42,26 @@ class ResultDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.addSubview(loadingView)
+        setLoadingViewConstraints()
+    }
+    
+    func setLoadingViewConstraints() {
+        NSLayoutConstraint.activate([
+            self.loadingView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.loadingView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.loadingView.topAnchor.constraint(equalTo: self.view.topAnchor)
+        ])
+    }
+    
+    func showErrorAlert(title: String, message: String) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let check = UIAlertAction(title: "確認", style: .default) { _ in
+            self.dismiss(animated: true)
+        }
+        alertController.addAction(check)
+        return alertController
     }
 }
 
@@ -47,21 +73,30 @@ extension ResultDetailViewController {
             view: self
         )
         
-        setUpNavigationBar(from: repository)
+        setNavigationBar(from: repository)
     }
     
-    func setUpNavigationBar(from repository: Repository) {
-        navigationController?.title = repository.user.userName ?? "User Name"
+    func setNavigationBar(from repository: Repository) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(rgb: 0x64B5F6).withAlphaComponent(0.7)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        self.navigationItem.backButtonTitle = "Back"
+        self.navigationController?.navigationBar.tintColor = UIColor(rgb: 0x115293)
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationItem.title = repository.owner.userName ?? "User Name"
+
         setUpUI(from: repository)
     }
     
-    // ⚠️network　errorによるunfetchはまだ定義してない
     func setUpUI(from repository: Repository) {
-        let unfetchedMessage = "読み取れませんでした"
-        
-        repositoryTitleLabel.text = repository.title ?? unfetchedMessage
-        repositoryLanguageLabel.text = "Written in " + (repository.language ?? unfetchedMessage)
-        repositoryStarsCountLabel.text = "\(String(describing: repository.stargazersCount)) stars"
+        repositoryTitleLabel.text = repository.title
+        repositoryLanguageLabel.text = "Written in \(repository.language ?? "")"
+        repositoryStarsCountLabel.text = "\(repository.stargazersCount ?? 0) stars"
         repositoryWatchersCountLabel.text = "\(repository.wachersCount ?? 0) watchers"
         repositoryForksCountLabel.text = "\(repository.forksCount ?? 0) forks"
         repositoryIssuesCountLabel.text = "\(repository.openIssuesCount ?? 0) open issues"
@@ -71,20 +106,28 @@ extension ResultDetailViewController {
 // MARK: - ResultDetailViewのImage
 extension ResultDetailViewController: ResultDetailView {
     func shouldShowUserImageResult(with imageData: Data) {
-        print("success to show")
         let image = UIImage(data: imageData) ?? UIImage(data: Data())
-        repositoryImageView.image = image
+        DispatchQueue.main.async {
+            self.loadingView.isLoading = false
+            self.repositoryImageView.image = image
+        }
     }
     
-    func shouldShowNetworkErrorFeedback() {
+    func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType) {
         // Network Errorを知らせるviewを表示
-        print("Network Error")
+        print("Network Error: \(error.localizedDescription)")
+        DispatchQueue.main.async {
+            self.loadingView.isLoading = false
+            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+        }
     }
     
-    func shouldShowResultFailFeedback() {
+    func shouldShowResultFailFeedback(errorType: ErrorType) {
         // Imageを正しくfetchするのに失敗
         print("Imageを正しく取得できませんでした")
+        DispatchQueue.main.async {
+            self.loadingView.isLoading = false
+            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+        }
     }
-    
-    
 }

@@ -17,7 +17,8 @@ struct RepositoryModel: Codable {
 }
 
 struct Repository: Codable {
-    var user: User
+    var owner: User
+    var description: String?
     var title: String?
     var language: String?
     var stargazersCount: Int?
@@ -26,7 +27,8 @@ struct Repository: Codable {
     var openIssuesCount: Int?
     
     enum CodingKeys: String, CodingKey {
-        case user = "owner"
+        case owner
+        case description
         case title = "full_name"
         case language
         case stargazersCount = "stargazers_count"
@@ -36,13 +38,12 @@ struct Repository: Codable {
     }
 }
 
-// imageがString型のurlとして格納されている
 struct User: Codable {
     var userName: String?
     var id: Int?
     var avatarURL: String?
     
-    enum codingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case userName = "login"
         case id
         case avatarURL = "avatar_url"

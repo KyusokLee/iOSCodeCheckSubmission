@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		945CB59B297558B300FB0CBA /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945CB59A297558B300FB0CBA /* LoadingView.swift */; };
+		945CB59D29755C6A00FB0CBA /* UIColor+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */; };
+		94D6BEDA2975AF3100DCFB5B /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D6BED92975AF3100DCFB5B /* ErrorType.swift */; };
+		94D6BEDC2975C00300DCFB5B /* HTTPURLResponse+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */; };
 		94E4BA8C2972BA55000780DA /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA8A2972BA55000780DA /* HomeTableViewCell.swift */; };
 		94E4BA8D2972BA55000780DA /* HomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E4BA8B2972BA55000780DA /* HomeTableViewCell.xib */; };
 		94E4BA8F2972BB42000780DA /* GitHubAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA8E2972BB42000780DA /* GitHubAPIClient.swift */; };
@@ -44,6 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		945CB59A297558B300FB0CBA /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Utils.swift"; sourceTree = "<group>"; };
+		94D6BED92975AF3100DCFB5B /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
+		94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Utils.swift"; sourceTree = "<group>"; };
 		94E4BA8A2972BA55000780DA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		94E4BA8B2972BA55000780DA /* HomeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeTableViewCell.xib; sourceTree = "<group>"; };
 		94E4BA8E2972BB42000780DA /* GitHubAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIClient.swift; sourceTree = "<group>"; };
@@ -122,6 +130,8 @@
 		948152042971878E00C4D3D9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */,
+				94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -138,6 +148,7 @@
 		94815206297187A300C4D3D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				945CB59A297558B300FB0CBA /* LoadingView.swift */,
 				94E4BA892972BA09000780DA /* Home */,
 			);
 			path = Views;
@@ -167,6 +178,7 @@
 			children = (
 				94E4BA8E2972BB42000780DA /* GitHubAPIClient.swift */,
 				94E4BA902972BB60000780DA /* RepositoryJSONParser.swift */,
+				94D6BED82975AEF200DCFB5B /* Enums */,
 				94E4BA922972BCAF000780DA /* Entities */,
 			);
 			path = Models;
@@ -186,6 +198,14 @@
 				BF0A658C244F2A3B00280FA6 /* ResultDetailViewController.swift */,
 			);
 			path = ResultDetail;
+			sourceTree = "<group>";
+		};
+		94D6BED82975AEF200DCFB5B /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				94D6BED92975AF3100DCFB5B /* ErrorType.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		94E4BA892972BA09000780DA /* Home */ = {
@@ -393,8 +413,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFD945E3244DC5E80012785A /* HomeViewController.swift in Sources */,
+				94D6BEDA2975AF3100DCFB5B /* ErrorType.swift in Sources */,
+				94D6BEDC2975C00300DCFB5B /* HTTPURLResponse+Utils.swift in Sources */,
 				94E4BA8C2972BA55000780DA /* HomeTableViewCell.swift in Sources */,
 				94E4BA962972BD50000780DA /* ResultDetailViewPresenter.swift in Sources */,
+				945CB59D29755C6A00FB0CBA /* UIColor+Utils.swift in Sources */,
+				945CB59B297558B300FB0CBA /* LoadingView.swift in Sources */,
 				94E4BA8F2972BB42000780DA /* GitHubAPIClient.swift in Sources */,
 				94E4BA942972BCBF000780DA /* Repository.swift in Sources */,
 				94E4BA912972BB60000780DA /* RepositoryJSONParser.swift in Sources */,

@@ -15,41 +15,39 @@ enum GitHubAPIType {
 }
 
 protocol GitHubAPIClientProtocol {
-    func send(type: GitHubAPIType, completion: @escaping ((Data?, Error?) -> Void))
-    func cancelTask()
+    func send(type: GitHubAPIType, completion: @escaping ((Data?, URLResponse?, Error?) -> Void))
 }
 
 // requestをAPI側に送信する
 struct GitHubAPIClient: GitHubAPIClientProtocol {
-    func send(type: GitHubAPIType, completion: @escaping ((Data?, Error?) -> Void)) {
+    func send(type: GitHubAPIType, completion: @escaping ((Data?, URLResponse?, Error?) -> Void)) {
         // ここでGitHub APIのリクエストを組み立て
         // URLSessionを使って通信をする
         // 通信が終わったらcompletionを呼ぶ
         let request = buildUpRequest(type: type)
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
-                completion(data, error)
+                completion(data, response, error)
             }
         }.resume()
     }
-    
-    func cancelTask() {
-        var task: URLSessionTask?
-        
-        if let hasTask = task {
-            hasTask.cancel()
-        }
-    }
 }
 
-// GitHub APIのrequestを立てる
-// ここで、Typeを分けて、repositorySearchであるか、avatarURLであるかを指定
+// MARK: - requestを立てる
 private extension GitHubAPIClient {
     func buildUpRequest(type: GitHubAPIType) -> URLRequest {
         switch type {
         case .repositorySearch(textString: let textString):
-            let url = URL(string: "https://api.github.com/search/repositories?q=\(textString)")!
-            var request = URLRequest(url: url)
+            var urlString = "https://api.github.com/search/repositories?q=\(textString)"
+            
+            // 英語以外の言語(日本語、韓国語など)の対応
+            // descriptionにその打ち込んだ単語があるなら、ヒットできるAPIの仕組みとなっている
+            if let safeString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                urlString = safeString
+            }
+            
+            let url = URL(string: urlString)
+            var request = URLRequest(url: url!)
             request.httpMethod = "GET"
             
             return request
