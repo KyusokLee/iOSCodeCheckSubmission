@@ -10,7 +10,6 @@ import Foundation
 
 // ResultDetailViewに関するPresenter
 // ResultDetailViewでは、もう一度DataをJson Parsingする必要はない
-
 protocol ResultDetailView: AnyObject {
     func shouldShowUserImageResult(with imageData: Data)
     func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType)
@@ -40,7 +39,6 @@ final class ResultDetailViewPresenter {
             }
             
             if let hasData = data {
-                print("success to show image!")
                 self.view?.shouldShowUserImageResult(with: hasData)
             } else {
                 self.view?.shouldShowResultFailFeedback(errorType: .loadDataError)

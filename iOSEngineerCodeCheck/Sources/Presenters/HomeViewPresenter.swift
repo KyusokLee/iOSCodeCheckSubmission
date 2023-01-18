@@ -40,7 +40,6 @@ final class HomeViewPresenter {
                 return
             }
             
-            // ⚠️途中の段階
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.isClientError() {
                     self.view?.shouldShowApiErrorFeedback(with: httpResponse, errorType: .apiClientError)

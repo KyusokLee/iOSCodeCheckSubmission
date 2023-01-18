@@ -8,6 +8,7 @@
 
 import UIKit
 
+// URLSessionTaskのcancelの代わりにloadingViewを表示することで、task cancelと類似なロジックを与える
 final class LoadingView: UIView {
     private let backgroundView: UIView = {
         let view = UIView()

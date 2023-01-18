@@ -149,7 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				945CB59A297558B300FB0CBA /* LoadingView.swift */,
-				94E4BA892972BA09000780DA /* Home */,
+				94E4BA892972BA09000780DA /* HomeCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -208,13 +208,13 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
-		94E4BA892972BA09000780DA /* Home */ = {
+		94E4BA892972BA09000780DA /* HomeCell */ = {
 			isa = PBXGroup;
 			children = (
 				94E4BA8A2972BA55000780DA /* HomeTableViewCell.swift */,
 				94E4BA8B2972BA55000780DA /* HomeTableViewCell.xib */,
 			);
-			path = Home;
+			path = HomeCell;
 			sourceTree = "<group>";
 		};
 		94E4BA922972BCAF000780DA /* Entities */ = {
