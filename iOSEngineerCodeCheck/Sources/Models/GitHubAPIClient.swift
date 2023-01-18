@@ -31,6 +31,7 @@ struct GitHubAPIClient: GitHubAPIClientProtocol {
             }
         }.resume()
     }
+    
 }
 
 // MARK: - requestを立てる

@@ -94,8 +94,8 @@ extension ResultDetailViewController {
     }
     
     func setUpUI(from repository: Repository) {
-        repositoryTitleLabel.text = repository.title
-        repositoryLanguageLabel.text = "Written in \(repository.language ?? "")"
+        repositoryTitleLabel.text = repository.title ?? ""
+        repositoryLanguageLabel.text = repository.language == nil ? "No Language" : "Written in \(repository.language ?? "")"
         repositoryStarsCountLabel.text = "\(repository.stargazersCount ?? 0) stars"
         repositoryWatchersCountLabel.text = "\(repository.wachersCount ?? 0) watchers"
         repositoryForksCountLabel.text = "\(repository.forksCount ?? 0) forks"
@@ -124,7 +124,6 @@ extension ResultDetailViewController: ResultDetailView {
     
     func shouldShowResultFailFeedback(errorType: ErrorType) {
         // Imageを正しくfetchするのに失敗
-        print("Imageを正しく取得できませんでした")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
             self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)

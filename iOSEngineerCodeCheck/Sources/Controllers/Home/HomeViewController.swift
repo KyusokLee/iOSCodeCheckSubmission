@@ -122,15 +122,6 @@ extension HomeViewController: UISearchBarDelegate {
         return true
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let text = searchBar.text
-        if let hasText = text {
-            print(hasText)
-           // presenter.cancelLoad()
-           // presenter.loadRepository(from: hasText)
-        }
-    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let text = searchBar.text
         if let hasText = text {
@@ -165,9 +156,7 @@ extension HomeViewController {
 // MARK: - Searchをすると、アップデートされるHomeView
 extension HomeViewController: HomeView {
     func shouldShowResult(with repository: RepositoryModel) {
-        // データを正常に持ってくることを確認
         self.repositories = repository
-        print(repository)
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
             self.searchResultTableView.reloadData()
