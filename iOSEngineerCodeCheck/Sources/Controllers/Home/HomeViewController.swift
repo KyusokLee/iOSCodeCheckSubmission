@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var searchResultTableView: UITableView!
     
     var repositories: RepositoryModel?
+    var task: URLSessionTask?
     private(set) var presenter: HomeViewPresenter!
     private let loadingView: LoadingView = {
         let view = LoadingView()
@@ -120,6 +121,12 @@ extension HomeViewController: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(true, animated: true)
         return true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let hasTask = task {
+            hasTask.cancel()
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
