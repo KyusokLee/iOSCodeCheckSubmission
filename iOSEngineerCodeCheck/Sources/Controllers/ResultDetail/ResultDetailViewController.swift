@@ -69,7 +69,7 @@ class ResultDetailViewController: UIViewController {
 extension ResultDetailViewController {
     func configure(with repository: Repository) {
         presenter = ResultDetailViewPresenter(
-            apiClient: GitHubAPIClient(),
+            httpURLClient: HTTPURLClient(),
             view: self
         )
         
