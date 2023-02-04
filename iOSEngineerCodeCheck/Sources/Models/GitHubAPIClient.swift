@@ -8,10 +8,11 @@
 
 import Foundation
 
-// 状況によって、必要なものを追加して作ることができる
+// MARK: avatarURLは、GitHubAPIではなく、ただのHTTP URLへのアクセスを用いるため、ここで書くのは違和感がある！
+// TODO: Userだけを検索するなどの機能を実装したい
 enum GitHubAPIType {
     case repositorySearch(textString: String)
-    case avatarURL(urlString: String)
+    // TODO: userだけを探す機能もあるといいかも
 }
 
 protocol GitHubAPIClientProtocol {
@@ -52,13 +53,7 @@ private extension GitHubAPIClient {
             request.httpMethod = "GET"
             
             return request
-            
-        case .avatarURL(urlString: let urlString):
-            let url = URL(string: urlString)!
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            
-            return request
+            // caseを設けて他の機能を実装することも可能
         }
     }
 }

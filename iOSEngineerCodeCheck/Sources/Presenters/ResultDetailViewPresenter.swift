@@ -9,7 +9,6 @@
 import Foundation
 
 // ResultDetailViewに関するPresenter
-// ResultDetailViewでは、もう一度DataをJson Parsingする必要はない
 protocol ResultDetailView: AnyObject {
     func shouldShowUserImageResult(with imageData: Data)
     func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType)
@@ -17,13 +16,13 @@ protocol ResultDetailView: AnyObject {
 }
 
 final class ResultDetailViewPresenter {
-    private let apiClient: GitHubAPIClientProtocol
+    private let httpURLClient: HTTPURLClientProtocol
     private weak var view: ResultDetailView?
     
-    init(apiClient: GitHubAPIClientProtocol,
+    init(httpURLClient: HTTPURLClientProtocol,
          view: ResultDetailView
     ) {
-        self.apiClient = apiClient
+        self.httpURLClient = httpURLClient
         // イニシャライザでViewを受け取る
         self.view = view
     }
@@ -31,8 +30,7 @@ final class ResultDetailViewPresenter {
     // avatarURLからimageをloadするように
     // imageはparsing処理がいらない
     func loadImage(from urlString: String) {
-        apiClient.send(type: .avatarURL(urlString: urlString)) { (data, _, error) in
-            // jsonParserを利用してGitHub Repository結果をパースし、Viewに伝える
+        httpURLClient.send(urlString: urlString) { (data, _, error) in
             guard error == nil else {
                 self.view?.shouldShowNetworkErrorFeedback(with: error!, errorType: .networkError)
                 return
