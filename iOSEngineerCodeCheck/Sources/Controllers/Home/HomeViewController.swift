@@ -96,8 +96,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell {
-            if let hasRepository = repositories?.items[indexPath.row] {
-                cell.configure(repository: hasRepository)
+            if let repository = repositories?.items[indexPath.row] {
+                cell.configure(repository: repository)
             }
             return cell
         } else {
@@ -106,10 +106,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let hasRepository = repositories?.items[indexPath.row] {
-            let resultDetailViewController = ResultDetailViewController.instantiate(with: hasRepository)
-            if let hasURL = hasRepository.owner.avatarURL {
-                resultDetailViewController.presenter.loadImage(from: hasURL)
+        if let repository = repositories?.items[indexPath.row] {
+            let resultDetailViewController = ResultDetailViewController.instantiate(with: repository)
+            if let imageURL = repository.owner.avatarURL {
+                resultDetailViewController.presenter.loadImage(from: imageURL)
             }
             tableView.deselectRow(at: indexPath, animated: true)
             navigationController?.pushViewController(resultDetailViewController, animated: true)
@@ -124,17 +124,19 @@ extension HomeViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if let hasTask = task {
-            hasTask.cancel()
+        if let task = task {
+            task.cancel()
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let text = searchBar.text
-        if let hasText = text {
+        if let text = text {
             // 空白があるときのErrorを防ぐ
-            let trimmedText = hasText.trimmingCharacters(in: .whitespaces)
+            let trimmedText = text.trimmingCharacters(in: .whitespaces)
             self.loadingView.isLoading = true
+            // MARK: ⚠️途中 isUserInteractionEnabledをcontrolして、text入力を防ぐ方法
+//            searchBar.isUserInteractionEnabled = false
             presenter.loadRepository(from: trimmedText)
         }
         searchBar.setShowsCancelButton(false, animated: true)

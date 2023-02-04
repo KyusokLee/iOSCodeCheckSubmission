@@ -38,8 +38,8 @@ final class ResultDetailViewPresenter {
                 return
             }
             
-            if let hasData = data {
-                self.view?.shouldShowUserImageResult(with: hasData)
+            if let imageData = data {
+                self.view?.shouldShowUserImageResult(with: imageData)
             } else {
                 self.view?.shouldShowResultFailFeedback(errorType: .loadDataError)
             }
