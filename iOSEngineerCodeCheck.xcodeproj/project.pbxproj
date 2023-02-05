@@ -109,7 +109,6 @@
 		948152022971876C00C4D3D9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				94E4BA992972CD5D000780DA /* Constants */,
 				BFD945E7244DC5EB0012785A /* Assets.xcassets */,
 				BFD945EC244DC5EB0012785A /* Info.plist */,
 			);
@@ -229,13 +228,6 @@
 				94E4BA932972BCBF000780DA /* Repository.swift */,
 			);
 			path = Entities;
-			sourceTree = "<group>";
-		};
-		94E4BA992972CD5D000780DA /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Constants;
 			sourceTree = "<group>";
 		};
 		BFD945D2244DC5E80012785A = {
