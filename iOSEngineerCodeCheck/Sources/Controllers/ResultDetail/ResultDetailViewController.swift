@@ -20,7 +20,6 @@ class ResultDetailViewController: UIViewController {
     @IBOutlet weak var repositoryForksCountLabel: UILabel!
     @IBOutlet weak var repositoryIssuesCountLabel: UILabel!
     
-    var repositoryData: Repository?
     private(set) var presenter: ResultDetailViewPresenter!
     private let loadingView: LoadingView = {
         let view = LoadingView()
@@ -55,7 +54,7 @@ class ResultDetailViewController: UIViewController {
         ])
     }
     
-    func showErrorAlert(title: String, message: String) -> UIAlertController {
+    func showsErrorAlert(title: String, message: String) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let check = UIAlertAction(title: "確認", style: .default) { _ in
             self.dismiss(animated: true)
@@ -118,7 +117,7 @@ extension ResultDetailViewController: ResultDetailView {
         print("Network Error: \(error.localizedDescription)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
         }
     }
     
@@ -126,7 +125,7 @@ extension ResultDetailViewController: ResultDetailView {
         // Imageを正しくfetchするのに失敗
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
         }
     }
 }

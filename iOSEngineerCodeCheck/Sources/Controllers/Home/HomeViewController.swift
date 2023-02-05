@@ -15,7 +15,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultTableView: UITableView!
     
-    var repositories: RepositoryModel?
+    // MARK: - repositoryModelではなく、他の命名もいいかも！
+    var repositoryModel: RepositoryModel?
     var task: URLSessionTask?
     private(set) var presenter: HomeViewPresenter!
     private let loadingView: LoadingView = {
@@ -79,7 +80,7 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    func showErrorAlert(title: String, message: String) -> UIAlertController {
+    func showsErrorAlert(title: String, message: String) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let check = UIAlertAction(title: "確認", style: .default) { _ in
             self.dismiss(animated: true)
@@ -91,12 +92,12 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repositories?.items.count ?? 0
+        return repositoryModel?.items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell {
-            if let repository = repositories?.items[indexPath.row] {
+            if let repository = repositoryModel?.items[indexPath.row] {
                 cell.configure(repository: repository)
             }
             return cell
@@ -106,7 +107,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let repository = repositories?.items[indexPath.row] {
+        if let repository = repositoryModel?.items[indexPath.row] {
             let resultDetailViewController = ResultDetailViewController.instantiate(with: repository)
             if let imageURL = repository.owner.avatarURL {
                 resultDetailViewController.presenter.loadImage(from: imageURL)
@@ -164,8 +165,9 @@ extension HomeViewController {
 
 // MARK: - Searchをすると、アップデートされるHomeView
 extension HomeViewController: HomeView {
-    func shouldShowResult(with repository: RepositoryModel) {
-        self.repositories = repository
+    func shouldShowResult(with repositoryModel: RepositoryModel) {
+        // ここで、単数と複数の等価的な扱いになっていたんで、修正
+        self.repositoryModel = repositoryModel
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
             self.searchResultTableView.reloadData()
@@ -176,7 +178,7 @@ extension HomeViewController: HomeView {
         print("Status Code: \(response.statusCode)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
         }
     }
     
@@ -185,7 +187,7 @@ extension HomeViewController: HomeView {
         print("Network Error: \(error.localizedDescription)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
         }
     }
     
@@ -193,7 +195,7 @@ extension HomeViewController: HomeView {
         print("Parsing Error: fail to show result")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
         }
     }
 }
