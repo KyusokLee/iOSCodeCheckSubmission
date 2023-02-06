@@ -9,6 +9,7 @@
 import UIKit
 
 // TODO: SearchBarでtextを打ち、検索ボタンを押さなくてもリポジトリのリストが表示されるように
+// TODO: Repository名が長くなるときへのUI対応
 
 class HomeViewController: UIViewController {
 
