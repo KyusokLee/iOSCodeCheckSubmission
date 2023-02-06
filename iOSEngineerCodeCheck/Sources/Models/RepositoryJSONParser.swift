@@ -17,7 +17,10 @@ protocol RepositoryJSONParserProtocol {
 
 struct RepositoryJSONParser: RepositoryJSONParserProtocol {
     func parse(data: Data) -> RepositoryModel? {
-        guard let repositoryResult = try? JSONDecoder().decode(RepositoryModel.self, from: data) else {
+        let decoder = JSONDecoder()
+        // codingKeysを別途に設けずに、decoder.keyDecodingStrategy = .convertFromSnakeCaseを用いてJSONのconvertがしやすい
+        // ただし、 _以外の名前はマッチしないといけない
+        guard let repositoryResult = try? decoder.decode(RepositoryModel.self, from: data) else {
             return nil
         }
         

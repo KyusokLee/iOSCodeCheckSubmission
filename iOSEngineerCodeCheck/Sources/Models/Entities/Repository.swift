@@ -25,7 +25,7 @@ struct Repository: Codable {
     var wachersCount: Int?
     var forksCount: Int?
     var openIssuesCount: Int?
-    
+
     enum CodingKeys: String, CodingKey {
         case owner
         case description
@@ -42,7 +42,7 @@ struct User: Codable {
     var userName: String?
     var id: Int?
     var avatarURL: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case userName = "login"
         case id

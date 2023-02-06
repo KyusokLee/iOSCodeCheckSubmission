@@ -38,8 +38,6 @@ class HomeTableViewCell: UITableViewCell {
         // MARK: ⚠️途中: Programming言語ごとの色をつけたい
         // 実装中だったので、isHiddenで隠す
         repositoryLanguageColorView.isHidden = true
-        // repositoryLanguageColorView.backgroundColor = .blue
-        // repositoryLanguageColorView.layer.cornerRadius = repositoryLanguageColorView.frame.width / 2
         repositoryLanguageLabel.text = repository.language
     }
 }
