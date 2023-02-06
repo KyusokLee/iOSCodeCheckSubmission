@@ -168,6 +168,7 @@ extension HomeViewController: HomeView {
     func shouldShowResult(with repositoryModel: RepositoryModel) {
         // ここで、単数と複数の等価的な扱いになっていたんで、修正
         self.repositoryModel = repositoryModel
+        print(repositoryModel)
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
             self.searchResultTableView.reloadData()
