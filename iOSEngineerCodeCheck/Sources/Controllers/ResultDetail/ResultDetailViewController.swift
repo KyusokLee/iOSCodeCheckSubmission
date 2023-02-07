@@ -13,7 +13,14 @@ import UIKit
 class ResultDetailViewController: UIViewController {
     
     @IBOutlet weak var repositoryImageView: UIImageView!
-    @IBOutlet weak var repositoryTitleLabel: UILabel!
+    @IBOutlet weak var repositoryTitleLabel: UILabel! {
+        didSet {
+            // repository名が長くなると、切れてしまう問題を防ぐため
+            repositoryTitleLabel.adjustsFontSizeToFitWidth = true
+            // font sizeの最小値を設定しないと、無限に縮小されてします。（defaultが0であるため）
+            repositoryTitleLabel.minimumScaleFactor = 0.5
+        }
+    }
     @IBOutlet weak var repositoryLanguageLabel: UILabel!
     @IBOutlet weak var repositoryStarsCountLabel: UILabel!
     @IBOutlet weak var repositoryWatchersCountLabel: UILabel!
