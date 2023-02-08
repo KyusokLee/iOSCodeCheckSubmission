@@ -9,6 +9,11 @@
 import UIKit
 
 // TODO: instantiateのとき、imageを先にロードしてから、入るようにしたい
+// MARK: 横になっているときのlayoutの設定が必要！
+// -> nibファイルからconstraintsをshift押しながら全部選択し、constraintのinstalledを既存のものから
+// width: any, height: Regular(縦)を活性化させた上で、横モードのlayoutを改めて設定しておく
+// 横モード: width: any, height: Compact(横)
+// widthをanyにする理由は、デバイスによって適用されないものもあるので、widthをanyにするのが好ましい
 
 class ResultDetailViewController: UIViewController {
     
