@@ -32,6 +32,15 @@ class ResultDetailViewController: UIViewController {
     @IBOutlet weak var repositoryForksCountLabel: UILabel!
     @IBOutlet weak var repositoryIssuesCountLabel: UILabel!
     
+    // MARK: Scroll Viewの実装
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .clear
+        
+        return scrollView
+    }()
+    
     private(set) var presenter: ResultDetailViewPresenter!
     private let loadingView: LoadingView = {
         let view = LoadingView()
@@ -53,6 +62,8 @@ class ResultDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.addSubview(scrollView)
+        setScrollViewConstraints()
         self.view.addSubview(loadingView)
         setLoadingViewConstraints()
     }
@@ -63,6 +74,16 @@ class ResultDetailViewController: UIViewController {
             self.loadingView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.loadingView.topAnchor.constraint(equalTo: self.view.topAnchor)
+        ])
+    }
+    
+    func setScrollViewConstraints() {
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            // safeLayoutGuideでConstraintsをセットすると、SafeLayoutの外側はscrollされない
+            scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
         ])
     }
     
