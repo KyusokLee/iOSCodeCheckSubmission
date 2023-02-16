@@ -15,6 +15,9 @@ import UIKit
 // 横モード: width: any, height: Compact(横)
 // widthをanyにする理由は、デバイスによって適用されないものもあるので、widthをanyにするのが好ましい
 
+// TODO: ScrollViewの導入
+// 既に、IBOutletのUIを配置したのであれば、コードベースではなく、storyboardベースの方が効率的かもしれない！
+
 class ResultDetailViewController: UIViewController {
     
     @IBOutlet weak var repositoryImageView: UIImageView!
