@@ -144,8 +144,8 @@
 		948152042971878E00C4D3D9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */,
 				94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */,
+				9484707329A0EB7C007F802C /* UI */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -153,8 +153,8 @@
 		948152052971879B00C4D3D9 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
-				94E4BA9C2972E087000780DA /* HomeViewPresenter.swift */,
-				94E4BA952972BD50000780DA /* ResultDetailViewPresenter.swift */,
+				9484707129A0EB5A007F802C /* Home */,
+				9484707229A0EB6A007F802C /* ResultDetail */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -213,6 +213,30 @@
 				BF0A658C244F2A3B00280FA6 /* ResultDetailViewController.swift */,
 			);
 			path = ResultDetail;
+			sourceTree = "<group>";
+		};
+		9484707129A0EB5A007F802C /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				94E4BA9C2972E087000780DA /* HomeViewPresenter.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9484707229A0EB6A007F802C /* ResultDetail */ = {
+			isa = PBXGroup;
+			children = (
+				94E4BA952972BD50000780DA /* ResultDetailViewPresenter.swift */,
+			);
+			path = ResultDetail;
+			sourceTree = "<group>";
+		};
+		9484707329A0EB7C007F802C /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		94D6BED82975AEF200DCFB5B /* Enums */ = {

@@ -8,6 +8,9 @@
 
 import XCTest
 
+// MARK: - Repositoryの名前があまりに長すぎると、adjustsFontSizeToFitWidthが効かなくなる
+// このエラーを防ぐためのTest Codeを作成する
+
 class iOSEngineerCodeCheckUITests: XCTestCase {
 
     override func setUpWithError() throws {

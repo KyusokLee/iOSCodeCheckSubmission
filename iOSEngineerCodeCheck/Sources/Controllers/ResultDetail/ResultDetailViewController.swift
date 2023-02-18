@@ -18,12 +18,13 @@ import UIKit
 // TODO: ScrollViewの導入
 // 既に、IBOutletのUIを配置したのであれば、コードベースではなく、storyboardベースの方が効率的かもしれない！
 
-class ResultDetailViewController: UIViewController {
+final class ResultDetailViewController: UIViewController {
     
     @IBOutlet weak var repositoryImageView: UIImageView!
     @IBOutlet weak var repositoryTitleLabel: UILabel! {
         didSet {
             // repository名が長くなると、切れてしまう問題を防ぐため
+            // 完全に対処できるわけではない　-> すごい小さくなると、ユーザの目にすぐ入らないため、正しいUIではないと考えた
             repositoryTitleLabel.adjustsFontSizeToFitWidth = true
             // font sizeの最小値を設定しないと、無限に縮小されてします。（defaultが0であるため）
             repositoryTitleLabel.minimumScaleFactor = 0.5
@@ -54,9 +55,12 @@ class ResultDetailViewController: UIViewController {
     }()
     
     static func instantiate(with repository: Repository) -> ResultDetailViewController {
-        guard let controller = UIStoryboard(name: "ResultDetail", bundle: nil).instantiateViewController(withIdentifier: "ResultDetailViewController") as? ResultDetailViewController else {
+        guard let controller = UIStoryboard(name: "ResultDetail", bundle: nil).instantiateViewController(
+            withIdentifier: "ResultDetailViewController"
+        ) as? ResultDetailViewController else {
             fatalError("ResultDetailViewController could not be found.")
         }
+        
         controller.loadViewIfNeeded()
         controller.configure(with: repository)
         return controller
@@ -153,7 +157,10 @@ extension ResultDetailViewController: ResultDetailView {
         print("Network Error: \(error.localizedDescription)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
         }
     }
     
@@ -161,7 +168,10 @@ extension ResultDetailViewController: ResultDetailView {
         // Imageを正しくfetchするのに失敗
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
         }
     }
 }

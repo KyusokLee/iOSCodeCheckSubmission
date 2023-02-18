@@ -11,7 +11,7 @@ import UIKit
 // TODO: SearchBarでtextを打ち、検索ボタンを押さなくてもリポジトリのリストが表示されるように
 // TODO: Repository名が長くなるときへのUI対応
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultTableView: UITableView!
@@ -69,7 +69,10 @@ class HomeViewController: UIViewController {
     }
 
     func registerNib() {
-        self.searchResultTableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: "HomeTableViewCell")
+        self.searchResultTableView.register(
+            UINib(nibName: "HomeTableViewCell", bundle: nil),
+            forCellReuseIdentifier: "HomeTableViewCell"
+        )
     }
     
     func setLoadingViewConstraints() {
@@ -97,7 +100,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell {
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: "HomeTableViewCell",
+            for: indexPath
+        ) as? HomeTableViewCell {
             if let repository = repositoryModel?.items[indexPath.row] {
                 cell.configure(repository: repository)
             }
@@ -180,7 +186,10 @@ extension HomeViewController: HomeView {
         print("Status Code: \(response.statusCode)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
         }
     }
     
@@ -189,7 +198,10 @@ extension HomeViewController: HomeView {
         print("Network Error: \(error.localizedDescription)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
         }
     }
     
@@ -197,7 +209,10 @@ extension HomeViewController: HomeView {
         print("Parsing Error: fail to show result")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
         }
     }
 }
