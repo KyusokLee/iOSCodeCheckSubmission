@@ -10,6 +10,7 @@
 		945CB59B297558B300FB0CBA /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945CB59A297558B300FB0CBA /* LoadingView.swift */; };
 		945CB59D29755C6A00FB0CBA /* UIColor+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */; };
 		946CBB622997C18500793010 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946CBB612997C18500793010 /* AppAppearance.swift */; };
+		947D249A29A0E4E100D59C22 /* ResultDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 947D249929A0E4E100D59C22 /* ResultDetail.storyboard */; };
 		94D6BEDA2975AF3100DCFB5B /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D6BED92975AF3100DCFB5B /* ErrorType.swift */; };
 		94D6BEDC2975C00300DCFB5B /* HTTPURLResponse+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */; };
 		94E4BA8C2972BA55000780DA /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA8A2972BA55000780DA /* HomeTableViewCell.swift */; };
@@ -18,7 +19,6 @@
 		94E4BA912972BB60000780DA /* RepositoryJSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA902972BB60000780DA /* RepositoryJSONParser.swift */; };
 		94E4BA942972BCBF000780DA /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA932972BCBF000780DA /* Repository.swift */; };
 		94E4BA962972BD50000780DA /* ResultDetailViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA952972BD50000780DA /* ResultDetailViewPresenter.swift */; };
-		94E4BA982972BDD6000780DA /* ResultDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94E4BA972972BDD6000780DA /* ResultDetail.storyboard */; };
 		94E4BA9D2972E087000780DA /* HomeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA9C2972E087000780DA /* HomeViewPresenter.swift */; };
 		94F84425298E7BDB00203B4D /* APIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F84424298E7BDB00203B4D /* APIType.swift */; };
 		94F84429298E83A500203B4D /* HTTPURLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F84428298E83A500203B4D /* HTTPURLClient.swift */; };
@@ -54,6 +54,7 @@
 		945CB59A297558B300FB0CBA /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Utils.swift"; sourceTree = "<group>"; };
 		946CBB612997C18500793010 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
+		947D249929A0E4E100D59C22 /* ResultDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ResultDetail.storyboard; sourceTree = "<group>"; };
 		94D6BED92975AF3100DCFB5B /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
 		94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Utils.swift"; sourceTree = "<group>"; };
 		94E4BA8A2972BA55000780DA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -62,7 +63,6 @@
 		94E4BA902972BB60000780DA /* RepositoryJSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryJSONParser.swift; sourceTree = "<group>"; };
 		94E4BA932972BCBF000780DA /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		94E4BA952972BD50000780DA /* ResultDetailViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDetailViewPresenter.swift; sourceTree = "<group>"; };
-		94E4BA972972BDD6000780DA /* ResultDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ResultDetail.storyboard; sourceTree = "<group>"; };
 		94E4BA9C2972E087000780DA /* HomeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewPresenter.swift; sourceTree = "<group>"; };
 		94F84424298E7BDB00203B4D /* APIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIType.swift; sourceTree = "<group>"; };
 		94F84428298E83A500203B4D /* HTTPURLClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPURLClient.swift; sourceTree = "<group>"; };
@@ -181,8 +181,8 @@
 			isa = PBXGroup;
 			children = (
 				BFD945E9244DC5EB0012785A /* LaunchScreen.storyboard */,
-				BFD945E4244DC5E80012785A /* Home.storyboard */,
-				94E4BA972972BDD6000780DA /* ResultDetail.storyboard */,
+				94DB37BB29A0E336009D3038 /* Home */,
+				94DB37BC29A0E33B009D3038 /* ResultDetail */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -222,6 +222,22 @@
 				94F84424298E7BDB00203B4D /* APIType.swift */,
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		94DB37BB29A0E336009D3038 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BFD945E4244DC5E80012785A /* Home.storyboard */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		94DB37BC29A0E33B009D3038 /* ResultDetail */ = {
+			isa = PBXGroup;
+			children = (
+				947D249929A0E4E100D59C22 /* ResultDetail.storyboard */,
+			);
+			path = ResultDetail;
 			sourceTree = "<group>";
 		};
 		94E4BA892972BA09000780DA /* HomeCell */ = {
@@ -394,7 +410,7 @@
 			files = (
 				BFD945EB244DC5EB0012785A /* LaunchScreen.storyboard in Resources */,
 				BFD945E8244DC5EB0012785A /* Assets.xcassets in Resources */,
-				94E4BA982972BDD6000780DA /* ResultDetail.storyboard in Resources */,
+				947D249A29A0E4E100D59C22 /* ResultDetail.storyboard in Resources */,
 				94E4BA8D2972BA55000780DA /* HomeTableViewCell.xib in Resources */,
 				BFD945E6244DC5E80012785A /* Home.storyboard in Resources */,
 			);
