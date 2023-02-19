@@ -23,6 +23,8 @@ import UIKit
 
 // Stack Viewでembedしてから、scroll viewに入れる方が効率的だった
 // content Viewとして入れたStack Viewとframe layout guideをequal width することで、正常にlayoutを取ることが可能となる
+// 今回は、scroll viewの挙動を確認したくて、わざとUILabelも入れたので、StackViewではなく、UIViewにUILabelとStackViewを入れる形にした
+
 // ⚠️scroll ができないエラーの原因 -> コードベースのscroll Viewとstoryboardで設定したScroll Viewが重複になり、動作がおかしくなったのが原因だった
 
 final class ResultDetailViewController: UIViewController {
