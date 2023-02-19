@@ -18,6 +18,16 @@ import UIKit
 // TODO: ScrollViewの導入
 // 既に、IBOutletのUIを配置したのであれば、コードベースではなく、storyboardベースの方が効率的かもしれない！
 
+// MARK: - Scroll Viewを実装する際、もともと設定しといたIBOutletをstack Viewでembedしてscroll viewに入れるか、それとも、一つ一つをcontent layoutとconstraintsを設定していれるかに関してテスト
+
+//⚠️: Content Viewを Frame Layout GuideとEqual Heightにして、Priorityを1000から250に変更したが、scrollができないエラーがあった
+
+
+// Stack Viewでembedしてから、scroll viewに入れる方が効率的だった
+// しかし、stack viewでembedしたため、constraintsをまた、設定する必要がある
+// content Viewとして入れたStack Viewとframe layout guideをequal width することで、正常にlayoutを取ることが可能となる
+// ⚠️しかし、scroll ができないというエラーがあった
+
 final class ResultDetailViewController: UIViewController {
     
     @IBOutlet weak var repositoryImageView: UIImageView!

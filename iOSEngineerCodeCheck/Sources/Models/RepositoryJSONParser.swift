@@ -20,6 +20,7 @@ struct RepositoryJSONParser: RepositoryJSONParserProtocol {
         let decoder = JSONDecoder()
         // codingKeysを別途に設けずに、decoder.keyDecodingStrategy = .convertFromSnakeCaseを用いてJSONのconvertがしやすい
         // ただし、 _以外の名前はマッチしないといけない
+        // 例) JSON上のキーがuserなのに、コード上ではownerという変数として使いたい場合
         guard let repositoryResult = try? decoder.decode(RepositoryModel.self, from: data) else {
             return nil
         }
