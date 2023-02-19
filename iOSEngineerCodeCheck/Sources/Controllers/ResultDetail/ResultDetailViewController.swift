@@ -22,7 +22,6 @@ import UIKit
 //⚠️: Content Viewを Frame Layout GuideとEqual Heightにして、Priorityを1000から250に変更し、ScrolViewのcontent Viewのheight をDynamicにする。一方で、今回は縦Scrollなので、widthのpriorityは1000にする。
 
 // Stack Viewでembedしてから、scroll viewに入れる方が効率的だった
-// しかし、stack viewでembedしたため、constraintsをまた、設定する必要がある
 // content Viewとして入れたStack Viewとframe layout guideをequal width することで、正常にlayoutを取ることが可能となる
 // ⚠️scroll ができないエラーの原因 -> コードベースのscroll Viewとstoryboardで設定したScroll Viewが重複になり、動作がおかしくなったのが原因だった
 
