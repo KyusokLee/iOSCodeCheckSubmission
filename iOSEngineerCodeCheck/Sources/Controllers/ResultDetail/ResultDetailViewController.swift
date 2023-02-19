@@ -23,6 +23,8 @@ import UIKit
 
 // Stack Viewでembedしてから、scroll viewに入れる方が効率的だった
 // content Viewとして入れたStack Viewとframe layout guideをequal width することで、正常にlayoutを取ることが可能となる
+// 今回は、scroll viewの挙動を確認したくて、わざとUILabelも入れたので、StackViewではなく、UIViewにUILabelとStackViewを入れる形にした
+
 // ⚠️scroll ができないエラーの原因 -> コードベースのscroll Viewとstoryboardで設定したScroll Viewが重複になり、動作がおかしくなったのが原因だった
 
 final class ResultDetailViewController: UIViewController {
@@ -42,15 +44,6 @@ final class ResultDetailViewController: UIViewController {
     @IBOutlet weak var repositoryWatchersCountLabel: UILabel!
     @IBOutlet weak var repositoryForksCountLabel: UILabel!
     @IBOutlet weak var repositoryIssuesCountLabel: UILabel!
-    
-    // MARK: Scroll Viewの実装
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.backgroundColor = .clear
-        
-        return scrollView
-    }()
     
     private(set) var presenter: ResultDetailViewPresenter!
     private let loadingView: LoadingView = {
@@ -86,16 +79,6 @@ final class ResultDetailViewController: UIViewController {
             self.loadingView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.loadingView.topAnchor.constraint(equalTo: self.view.topAnchor)
-        ])
-    }
-    
-    func setScrollViewConstraints() {
-        NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            // safeLayoutGuideでConstraintsをセットすると、SafeLayoutの外側はscrollされない
-            scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
         ])
     }
     
