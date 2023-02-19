@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="landscape" appearance="light"/>
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,23 +13,23 @@
             <objects>
                 <viewController storyboardIdentifier="ResultDetailViewController" id="Y6W-OH-hqX" customClass="ResultDetailViewController" customModule="iOSEngineerCodeCheck" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="852" height="393"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FTx-P8-za9">
-                                <rect key="frame" x="40" y="74" width="772" height="772"/>
+                                <rect key="frame" x="20" y="130.33333333333337" width="353" height="353"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="FTx-P8-za9" secondAttribute="height" multiplier="1:1" id="XZj-1h-Oe0"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hh7-7L-jtE">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hh7-7L-jtE">
                                 <rect key="frame" x="20" y="511.33333333333331" width="353" height="33.666666666666686"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="equalSpacing" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="7EY-Z7-eTu">
-                                <rect key="frame" x="20" y="565" width="143.66666666666666" height="120"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="7EY-Z7-eTu">
+                                <rect key="frame" x="20" y="565" width="353" height="120"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byr-Hd-pe1">
                                         <rect key="frame" x="0.0" y="0.0" width="78.666666666666671" height="20.333333333333332"/>
@@ -38,7 +38,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="tQO-zC-aon">
-                                        <rect key="frame" x="78.666666666666671" y="0.0" width="65.000000000000014" height="120"/>
+                                        <rect key="frame" x="288" y="0.0" width="65" height="120"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stars" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eID-yP-nXI">
                                                 <rect key="frame" x="0.0" y="0.0" width="65" height="18"/>
@@ -75,15 +75,12 @@
                             <constraint firstItem="FTx-P8-za9" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" multiplier="0.7" id="C0V-2g-lfr"/>
                             <constraint firstItem="hh7-7L-jtE" firstAttribute="top" secondItem="FTx-P8-za9" secondAttribute="bottom" constant="28" id="FFO-Xc-vAK"/>
                             <constraint firstItem="7EY-Z7-eTu" firstAttribute="trailing" secondItem="FTx-P8-za9" secondAttribute="trailing" id="Lnr-9o-R1X"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="FTx-P8-za9" secondAttribute="trailing" constant="40" id="Ohz-vb-KOb"/>
                             <constraint firstItem="hh7-7L-jtE" firstAttribute="leading" secondItem="FTx-P8-za9" secondAttribute="leading" id="Tdz-Mv-pg8"/>
                             <constraint firstItem="7EY-Z7-eTu" firstAttribute="leading" secondItem="FTx-P8-za9" secondAttribute="leading" id="XrE-Wr-VOP"/>
                             <constraint firstItem="FTx-P8-za9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="YME-hn-n7G"/>
                             <constraint firstItem="7EY-Z7-eTu" firstAttribute="width" secondItem="FTx-P8-za9" secondAttribute="width" id="crw-PK-bjG"/>
                             <constraint firstItem="7EY-Z7-eTu" firstAttribute="top" secondItem="hh7-7L-jtE" secondAttribute="bottom" constant="20" id="itA-cE-vFd"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="FTx-P8-za9" secondAttribute="trailing" constant="20" id="oxG-Ht-7h3"/>
-                            <constraint firstItem="FTx-P8-za9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="pR5-LM-BIh"/>
-                            <constraint firstItem="FTx-P8-za9" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="xTu-Vd-4bU"/>
                             <constraint firstItem="hh7-7L-jtE" firstAttribute="trailing" secondItem="FTx-P8-za9" secondAttribute="trailing" id="y2l-99-y5F"/>
                         </constraints>
                         <variation key="default">

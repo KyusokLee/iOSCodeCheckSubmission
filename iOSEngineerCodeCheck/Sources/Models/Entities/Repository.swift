@@ -11,6 +11,7 @@ import Foundation
 // Repositoryから取りたい値だけをModelとして設定
 // itemsの中にRepositoryのデータが入っている構造
 // itemsの中のownerの中に特定したuserのデータが格納されている
+// MARK: - Entityをもっと細かく分けた方がいいというフィードバック
 
 struct RepositoryModel: Codable {
     let items: [Repository]

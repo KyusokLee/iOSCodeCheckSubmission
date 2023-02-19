@@ -15,12 +15,23 @@ import UIKit
 // 横モード: width: any, height: Compact(横)
 // widthをanyにする理由は、デバイスによって適用されないものもあるので、widthをanyにするのが好ましい
 
-class ResultDetailViewController: UIViewController {
+// TODO: ScrollViewの導入
+// 既に、IBOutletのUIを配置したのであれば、コードベースではなく、storyboardベースの方が効率的かもしれない！
+
+// MARK: - 一般的に、Scroll Viewのcontent viewとしてStack Viewを使うのが多いようだ
+//⚠️: Content Viewを Frame Layout GuideとEqual Heightにして、Priorityを1000から250に変更し、ScrolViewのcontent Viewのheight をDynamicにする。一方で、今回は縦Scrollなので、widthのpriorityは1000にする。
+
+// Stack Viewでembedしてから、scroll viewに入れる方が効率的だった
+// content Viewとして入れたStack Viewとframe layout guideをequal width することで、正常にlayoutを取ることが可能となる
+// ⚠️scroll ができないエラーの原因 -> コードベースのscroll Viewとstoryboardで設定したScroll Viewが重複になり、動作がおかしくなったのが原因だった
+
+final class ResultDetailViewController: UIViewController {
     
     @IBOutlet weak var repositoryImageView: UIImageView!
     @IBOutlet weak var repositoryTitleLabel: UILabel! {
         didSet {
             // repository名が長くなると、切れてしまう問題を防ぐため
+            // 完全に対処できるわけではない　-> すごい小さくなると、ユーザの目にすぐ入らないため、正しいUIではないと考えた
             repositoryTitleLabel.adjustsFontSizeToFitWidth = true
             // font sizeの最小値を設定しないと、無限に縮小されてします。（defaultが0であるため）
             repositoryTitleLabel.minimumScaleFactor = 0.5
@@ -32,6 +43,15 @@ class ResultDetailViewController: UIViewController {
     @IBOutlet weak var repositoryForksCountLabel: UILabel!
     @IBOutlet weak var repositoryIssuesCountLabel: UILabel!
     
+    // MARK: Scroll Viewの実装
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .clear
+        
+        return scrollView
+    }()
+    
     private(set) var presenter: ResultDetailViewPresenter!
     private let loadingView: LoadingView = {
         let view = LoadingView()
@@ -42,9 +62,12 @@ class ResultDetailViewController: UIViewController {
     }()
     
     static func instantiate(with repository: Repository) -> ResultDetailViewController {
-        guard let controller = UIStoryboard(name: "ResultDetail", bundle: nil).instantiateViewController(withIdentifier: "ResultDetailViewController") as? ResultDetailViewController else {
+        guard let controller = UIStoryboard(name: "ResultDetail", bundle: nil).instantiateViewController(
+            withIdentifier: "ResultDetailViewController"
+        ) as? ResultDetailViewController else {
             fatalError("ResultDetailViewController could not be found.")
         }
+        
         controller.loadViewIfNeeded()
         controller.configure(with: repository)
         return controller
@@ -63,6 +86,16 @@ class ResultDetailViewController: UIViewController {
             self.loadingView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.loadingView.topAnchor.constraint(equalTo: self.view.topAnchor)
+        ])
+    }
+    
+    func setScrollViewConstraints() {
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            // safeLayoutGuideでConstraintsをセットすると、SafeLayoutの外側はscrollされない
+            scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
         ])
     }
     
@@ -129,7 +162,10 @@ extension ResultDetailViewController: ResultDetailView {
         print("Network Error: \(error.localizedDescription)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
         }
     }
     
@@ -137,7 +173,10 @@ extension ResultDetailViewController: ResultDetailView {
         // Imageを正しくfetchするのに失敗
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
-            self.present(self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage), animated: true)
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
         }
     }
 }
