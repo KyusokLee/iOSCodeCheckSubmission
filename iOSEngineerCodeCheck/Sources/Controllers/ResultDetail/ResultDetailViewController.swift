@@ -18,15 +18,13 @@ import UIKit
 // TODO: ScrollViewの導入
 // 既に、IBOutletのUIを配置したのであれば、コードベースではなく、storyboardベースの方が効率的かもしれない！
 
-// MARK: - Scroll Viewを実装する際、もともと設定しといたIBOutletをstack Viewでembedしてscroll viewに入れるか、それとも、一つ一つをcontent layoutとconstraintsを設定していれるかに関してテスト
-
-//⚠️: Content Viewを Frame Layout GuideとEqual Heightにして、Priorityを1000から250に変更したが、scrollができないエラーがあった
-
+// MARK: - 一般的に、Scroll Viewのcontent viewとしてStack Viewを使うのが多いようだ
+//⚠️: Content Viewを Frame Layout GuideとEqual Heightにして、Priorityを1000から250に変更し、ScrolViewのcontent Viewのheight をDynamicにする。一方で、今回は縦Scrollなので、widthのpriorityは1000にする。
 
 // Stack Viewでembedしてから、scroll viewに入れる方が効率的だった
 // しかし、stack viewでembedしたため、constraintsをまた、設定する必要がある
 // content Viewとして入れたStack Viewとframe layout guideをequal width することで、正常にlayoutを取ることが可能となる
-// ⚠️しかし、scroll ができないというエラーがあった
+// ⚠️scroll ができないエラーの原因 -> コードベースのscroll Viewとstoryboardで設定したScroll Viewが重複になり、動作がおかしくなったのが原因だった
 
 final class ResultDetailViewController: UIViewController {
     
@@ -79,8 +77,6 @@ final class ResultDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.addSubview(scrollView)
-        setScrollViewConstraints()
         self.view.addSubview(loadingView)
         setLoadingViewConstraints()
     }
