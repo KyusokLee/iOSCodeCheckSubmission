@@ -14,7 +14,13 @@ import Foundation
 // MARK: - Entityをもっと細かく分けた方がいいというフィードバック
 
 struct RepositoryModel: Codable {
+    let totalCount: Int?
     let items: [Repository]
+    
+    enum CodingKeys: String, CodingKey {
+        case totalCount = "total_count"
+        case items
+    }
 }
 
 struct Repository: Codable {

@@ -11,6 +11,8 @@
 		945CB59D29755C6A00FB0CBA /* UIColor+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */; };
 		946CBB622997C18500793010 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946CBB612997C18500793010 /* AppAppearance.swift */; };
 		947D249A29A0E4E100D59C22 /* ResultDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 947D249929A0E4E100D59C22 /* ResultDetail.storyboard */; };
+		94D4188A29A3BC1F00FFFED8 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D4188929A3BC1F00FFFED8 /* MockURLSession.swift */; };
+		94D4188C29A3BDB700FFFED8 /* URLSession+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D4188B29A3BDB700FFFED8 /* URLSession+Protocol.swift */; };
 		94D6BEDA2975AF3100DCFB5B /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D6BED92975AF3100DCFB5B /* ErrorType.swift */; };
 		94D6BEDC2975C00300DCFB5B /* HTTPURLResponse+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */; };
 		94E4BA8C2972BA55000780DA /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E4BA8A2972BA55000780DA /* HomeTableViewCell.swift */; };
@@ -55,6 +57,8 @@
 		945CB59C29755C6A00FB0CBA /* UIColor+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Utils.swift"; sourceTree = "<group>"; };
 		946CBB612997C18500793010 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		947D249929A0E4E100D59C22 /* ResultDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ResultDetail.storyboard; sourceTree = "<group>"; };
+		94D4188929A3BC1F00FFFED8 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		94D4188B29A3BDB700FFFED8 /* URLSession+Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Protocol.swift"; sourceTree = "<group>"; };
 		94D6BED92975AF3100DCFB5B /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
 		94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Utils.swift"; sourceTree = "<group>"; };
 		94E4BA8A2972BA55000780DA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			children = (
 				94D6BEDB2975C00300DCFB5B /* HTTPURLResponse+Utils.swift */,
 				9484707329A0EB7C007F802C /* UI */,
+				94D4188B29A3BDB700FFFED8 /* URLSession+Protocol.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -190,6 +195,7 @@
 		94815209297187C600C4D3D9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				94D4188929A3BC1F00FFFED8 /* MockURLSession.swift */,
 				94F84428298E83A500203B4D /* HTTPURLClient.swift */,
 				94E4BA8E2972BB42000780DA /* GitHubAPIClient.swift */,
 				94E4BA902972BB60000780DA /* RepositoryJSONParser.swift */,
@@ -467,11 +473,13 @@
 				94E4BA8C2972BA55000780DA /* HomeTableViewCell.swift in Sources */,
 				94F84425298E7BDB00203B4D /* APIType.swift in Sources */,
 				946CBB622997C18500793010 /* AppAppearance.swift in Sources */,
+				94D4188A29A3BC1F00FFFED8 /* MockURLSession.swift in Sources */,
 				94E4BA962972BD50000780DA /* ResultDetailViewPresenter.swift in Sources */,
 				94F84429298E83A500203B4D /* HTTPURLClient.swift in Sources */,
 				945CB59D29755C6A00FB0CBA /* UIColor+Utils.swift in Sources */,
 				945CB59B297558B300FB0CBA /* LoadingView.swift in Sources */,
 				94E4BA8F2972BB42000780DA /* GitHubAPIClient.swift in Sources */,
+				94D4188C29A3BDB700FFFED8 /* URLSession+Protocol.swift in Sources */,
 				94E4BA942972BCBF000780DA /* Repository.swift in Sources */,
 				94E4BA912972BB60000780DA /* RepositoryJSONParser.swift in Sources */,
 				BF0A658D244F2A3B00280FA6 /* ResultDetailViewController.swift in Sources */,
