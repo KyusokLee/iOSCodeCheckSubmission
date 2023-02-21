@@ -11,8 +11,8 @@ import Foundation
 // ResultDetailViewに関するPresenter
 protocol HomeView: AnyObject {
     func shouldShowResult(with repository: RepositoryModel)
-    func shouldShowApiErrorFeedback(with response: HTTPURLResponse, errorType: ErrorType)
-    func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType)
+    func shouldShowAPIErrorFeedback(with response: HTTPURLResponse, errorType: ErrorType)
+    func shouldShowNetworkErrorFeedback(errorType: ErrorType)
     func shouldShowResultFailFeedback(errorType: ErrorType)
 }
 
@@ -36,16 +36,16 @@ final class HomeViewPresenter {
         apiClient.send(type: .repositorySearch(textString: textString)) { (data, response, error) in
             // jsonParserを利用してGitHub Repository結果をパースし、Viewに伝える
             guard error == nil, let hasData = data else {
-                self.view?.shouldShowNetworkErrorFeedback(with: error!, errorType: .networkError)
+                self.view?.shouldShowNetworkErrorFeedback(errorType: .networkError)
                 return
             }
             
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.isClientError() {
-                    self.view?.shouldShowApiErrorFeedback(with: httpResponse, errorType: .apiClientError)
+                    self.view?.shouldShowAPIErrorFeedback(with: httpResponse, errorType: .apiClientError)
                     return
                 } else if httpResponse.isServerError() {
-                    self.view?.shouldShowApiErrorFeedback(with: httpResponse, errorType: .apiServerError)
+                    self.view?.shouldShowAPIErrorFeedback(with: httpResponse, errorType: .apiServerError)
                 }
             }
             

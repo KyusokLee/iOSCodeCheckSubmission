@@ -28,7 +28,6 @@ class iOSEngineerCodeCheckTests: XCTestCase {
     var parser: RepositoryJSONParser!
     var session: MockURLSession!
     
-
     override func setUpWithError() throws {
         // 初期化コードを作成するメソッド
         // クラスのそれぞれのテスト関数が呼び出され、各テストが全て同じ状態と条件で実行されるようにしてくれるメソッド

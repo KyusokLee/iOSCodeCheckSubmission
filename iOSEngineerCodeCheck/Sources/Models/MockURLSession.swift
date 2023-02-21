@@ -9,10 +9,9 @@
 import Foundation
 
 // Test確認のためのMockURLSession
-
 class MockURLSession: URLSessionProtocol {
-    private (set) var lastURL: URL?
-    private (set) var nextDataTask: MockURLSessionDataTask!
+    private(set) var lastURL: URL?
+    private(set) var nextDataTask: MockURLSessionDataTask!
     
     func dataTaskWithUrl(with url: URL, completionHandler: @escaping DataTaskResult) -> URLSessionDataTaskProtocol {
         lastURL = url
@@ -23,7 +22,7 @@ class MockURLSession: URLSessionProtocol {
 }
  
 class MockURLSessionDataTask: URLSessionDataTaskProtocol {
-    private (set) var resumeWasCalled = false
+    private(set) var resumeWasCalled = false
     
     func resume() {
         resumeWasCalled = true

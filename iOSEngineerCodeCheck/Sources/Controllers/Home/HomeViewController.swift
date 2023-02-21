@@ -182,7 +182,7 @@ extension HomeViewController: HomeView {
         }
     }
     
-    func shouldShowApiErrorFeedback(with response: HTTPURLResponse, errorType: ErrorType) {
+    func shouldShowAPIErrorFeedback(with response: HTTPURLResponse, errorType: ErrorType) {
         print("Status Code: \(response.statusCode)")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
@@ -193,9 +193,9 @@ extension HomeViewController: HomeView {
         }
     }
     
-    func shouldShowNetworkErrorFeedback(with error: Error, errorType: ErrorType) {
+    func shouldShowNetworkErrorFeedback(errorType: ErrorType) {
         // Debugのため
-        print("Network Error: \(error.localizedDescription)")
+        print("Network Error: fail to show result")
         DispatchQueue.main.async {
             self.loadingView.isLoading = false
             self.present(
